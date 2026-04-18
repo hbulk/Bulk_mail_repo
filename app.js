@@ -63,16 +63,6 @@ function initGIS() {
     callback: handleCredentialResponse,
     auto_select: false
   });
-  const buttonContainer = document.getElementById('google-signin-button');
-  if (buttonContainer) {
-    google.accounts.id.renderButton(buttonContainer, {
-      theme: 'outline',
-      size: 'large',
-      text: 'signin_with',
-      shape: 'rectangular',
-      logo_alignment: 'left'
-    });
-  }
 }
 
 
@@ -99,9 +89,22 @@ function scheduleSigninPopup() {
   setTimeout(() => {
     const popup = document.getElementById('signin-screen');
     popup.classList.remove('hidden');
-    // Small delay so transition fires
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => popup.classList.add('show'));
+      requestAnimationFrame(() => {
+        popup.classList.add('show');
+        // Render Google button AFTER popup is visible
+        const buttonContainer = document.getElementById('google-signin-button');
+        if (buttonContainer && typeof google !== 'undefined' && google.accounts) {
+          buttonContainer.innerHTML = '';
+          google.accounts.id.renderButton(buttonContainer, {
+            theme: 'outline',
+            size: 'large',
+            text: 'signin_with',
+            shape: 'rectangular',
+            logo_alignment: 'left'
+          });
+        }
+      });
     });
   }, 2000);
 }
