@@ -103,7 +103,7 @@ function scheduleSigninPopup() {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => popup.classList.add('show'));
     });
-  }, 3000);
+  }, 2000);
 }
 
 // ── Core app ──────────────────────────────────────────────
