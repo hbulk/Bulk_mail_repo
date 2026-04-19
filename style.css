@@ -26,16 +26,16 @@
 .page-layout {
   flex: 1;
   padding: 2rem 1rem 3rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-areas: "main";
-  justify-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   gap: 2rem;
 }
 
 /* ── Sidebar ── */
 .sidebar {
-  grid-area: sidebar;
+  width: 240px;
+  flex-shrink: 0;
   position: sticky;
   top: 2rem;
   align-self: start;
@@ -171,16 +171,9 @@
   padding: 2px 8px;
 }
 
-/* Show sidebar + ad zone on wide screens */
+/* Show sidebar on wide screens */
 @media (min-width: 900px) {
-  .page-layout {
-    grid-template-columns: 240px minmax(0, 600px) 240px;
-    grid-template-areas: "sidebar main adzone";
-    justify-items: stretch;
-    padding: 2rem 1.5rem 3rem;
-  }
   .sidebar { display: block; }
-  .ad-zone { display: block; }
 }
 }
 
@@ -266,10 +259,9 @@ body {
 }
 
 .wrap {
-  grid-area: main;
   max-width: 600px;
-  margin: 0 auto;
   width: 100%;
+  flex-shrink: 0;
 }
 
 /* ── Head ── */
