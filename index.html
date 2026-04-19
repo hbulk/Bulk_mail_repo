@@ -11,11 +11,11 @@
   <meta name="keywords" content="bulk email sender, Gmail bulk email, send mass email Gmail, free bulk email tool, Gmail BCC tool, bulk email from Gmail, mass email sender free, upload excel send email">
   <meta name="author" content="Bulk Mail Launcher">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://hbulk.github.io/bulk-mail-launcher/">
+  <link rel="canonical" href="https://yourusername.github.io/bulk-mail-launcher/">
 
   <!-- ── Open Graph (Facebook, LinkedIn, WhatsApp previews) ── -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://hbulk.github.io/bulk-mail-launcher/">
+  <meta property="og:url" content="https://yourusername.github.io/bulk-mail-launcher/">
   <meta property="og:title" content="Bulk Mail Launcher — Free Gmail Bulk Email Sender">
   <meta property="og:description" content="Upload your email list (Excel or CSV) and send bulk emails through Gmail in seconds. 100% free. Runs in your browser. No data uploaded.">
   <meta property="og:image" content="https://yourusername.github.io/bulk-mail-launcher/og-image.png">
@@ -55,22 +55,49 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Sign-in modal (delayed 7s, blocks until signed in) -->
-  <div id="signin-screen" class="signin-overlay hidden">
-    <div class="signin-modal">
-      <div class="signin-modal-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <rect x="3" y="11" width="18" height="11" rx="2"/>
-          <path d="M7 11V7a5 5 0 0110 0v4"/>
-        </svg>
-      </div>
-      <h2 class="signin-modal-title">Sign in to continue</h2>
-      <p class="signin-modal-sub">To open Gmail and send your emails, we need to know which Google account you're using.</p>
-      <div id="google-signin-button" style="display:inline-block;"></div>
-      <p class="signin-modal-note">Everything runs in your browser. No data is uploaded anywhere.</p>
-    </div>
-  </div>
   <div class="page-layout">
+    <!-- Left sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="sidebar-section">
+          <div class="sidebar-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          <h3 class="sidebar-title">Which account will send?</h3>
+          <p class="sidebar-body">Gmail opens using whichever account is <strong>currently active</strong> in your browser — not necessarily the one you think.</p>
+        </div>
+
+        <div class="sidebar-steps-title">To send from a specific account:</div>
+        <ol class="sidebar-steps">
+          <li>
+            <span class="sidebar-step-num">1</span>
+            <span>Open <a href="https://mail.google.com" target="_blank" rel="noopener">Gmail</a> in a new tab</span>
+          </li>
+          <li>
+            <span class="sidebar-step-num">2</span>
+            <span>Click your <strong>profile picture</strong> (top-right)</span>
+          </li>
+          <li>
+            <span class="sidebar-step-num">3</span>
+            <span>Choose <strong>Switch account</strong> → select the account you want</span>
+          </li>
+          <li>
+            <span class="sidebar-step-num">4</span>
+            <span>Return here and click <strong>Open Gmail</strong></span>
+          </li>
+        </ol>
+
+        <div class="sidebar-tip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Your emails &amp; files stay in your browser — nothing is uploaded.
+        </div>
+      </div>
+    </aside>
+
     <div class="wrap">
     <div class="head">
       <h1>Bulk mail launcher</h1>
@@ -98,7 +125,7 @@
     <div class="card hidden" id="card-preview">
       <div class="step-tag">Step 2 — verify emails</div>
       <div class="stats">
-        <div class="stat"><div class="n" id="s-total">0</div><div class="l">Total Mail Count</div></div>
+        <div class="stat"><div class="n" id="s-total">0</div><div class="l">Total rows</div></div>
         <div class="stat ok"><div class="n" id="s-valid">0</div><div class="l">Valid</div></div>
         <div class="stat bad"><div class="n" id="s-skip">0</div><div class="l">Skipped</div></div>
       </div>
@@ -109,13 +136,11 @@
         </div>
         <div id="elist-body"></div>
       </div>
-      <!-- <button class="btn-outline btn-sm" onclick="doReset()">&#8592; Upload different file</button> -->
+      <button class="btn-outline btn-sm" onclick="doReset()">&#8592; Upload different file</button>
     </div>
 
     <div class="card hidden" id="card-send">
       <div class="step-tag">Step 3 — send</div>
-
-      <div class="sending-from-box" id="sending-from-box"></div>
 
       <div class="lbl">Subject line</div>
       <input type="text" id="subj" placeholder="Enter your subject..." class="full-input">
@@ -165,7 +190,6 @@
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script src="https://accounts.google.com/gsi/client" onload="initGIS()" defer></script>
   <script src="app.js"></script>
 </body>
 </html>
