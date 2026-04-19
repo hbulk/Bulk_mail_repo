@@ -1,113 +1,5 @@
 // Bulk Mail Launcher v3
 
-// ── Google Identity Services (GIS) Sign-In ────────────────────
-// NOTE: Replace the CLIENT_ID below with your own OAuth Client ID
-// Create it at https://console.cloud.google.com/apis/credentials
-// (Application type: Web application, Authorized JavaScript origins: your domain)
-const CLIENT_ID = '106115609752-llmsmk9fcoh4rodh2ak8ljv3cvsgspf9.apps.googleusercontent.com';
-
-let currentProfile = null;
-
-function decodeJwtResponse(token) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-  return JSON.parse(jsonPayload);
-}
-
-function handleCredentialResponse(credentialResponse) {
-  const responsePayload = decodeJwtResponse(credentialResponse.credential);
-  currentProfile = {
-    name: responsePayload.name || '',
-    email: responsePayload.email || '',
-    picture: responsePayload.picture || '',
-    sub: responsePayload.sub
-  };
-  localStorage.setItem('bml_profile', JSON.stringify(currentProfile));
-  const popup = document.getElementById('signin-screen');
-  popup.classList.remove('show');
-  setTimeout(() => popup.classList.add('hidden'), 400);
-  renderSendingFrom();
-}
-
-function renderSendingFrom() {
-  if (!currentProfile) return;
-  const box = document.getElementById('sending-from-box');
-  if (!box) return;
-  box.innerHTML = `
-    <img src="${currentProfile.picture}" alt="">
-    <div class="sending-from-box-info">
-      <div class="sending-from-label">Sending from</div>
-      <div class="sending-from-name">${currentProfile.name}</div>
-      <div class="sending-from-email">${currentProfile.email}</div>
-    </div>
-  `;
-}
-
-function signOut() {
-  localStorage.removeItem('bml_profile');
-  currentProfile = null;
-  document.getElementById('signin-screen').style.display = 'flex';
-  doReset();
-}
-
-function initGIS() {
-  if (typeof google === 'undefined' || !google.accounts) {
-    console.error('Google Identity Services not loaded');
-    return;
-  }
-  google.accounts.id.initialize({
-    client_id: CLIENT_ID,
-    callback: handleCredentialResponse,
-    auto_select: false
-  });
-}
-
-
-// Initialize Google Sign-In when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-  // Restore saved session
-  const saved = localStorage.getItem('bml_profile');
-  if (saved) {
-    try {
-      currentProfile = JSON.parse(saved);
-      // Already logged in — don't show popup at all
-      renderSendingFrom();
-    } catch(e) {
-      localStorage.removeItem('bml_profile');
-      scheduleSigninPopup();
-    }
-  } else {
-    scheduleSigninPopup();
-  }
-});
-
-function scheduleSigninPopup() {
-  setTimeout(() => {
-    const popup = document.getElementById('signin-screen');
-    popup.classList.remove('hidden');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        popup.classList.add('show');
-        // Render Google button AFTER popup is visible
-        const buttonContainer = document.getElementById('google-signin-button');
-        if (buttonContainer && typeof google !== 'undefined' && google.accounts) {
-          buttonContainer.innerHTML = '';
-          google.accounts.id.renderButton(buttonContainer, {
-            theme: 'outline',
-            size: 'large',
-            text: 'signin_with',
-            shape: 'rectangular',
-            logo_alignment: 'left'
-          });
-        }
-      });
-    });
-  }, 2000);
-}
-
 // ── Core app ──────────────────────────────────────────────
 const LIMIT = 490;
 
@@ -288,7 +180,6 @@ function renderAll() {
 
   document.getElementById('card-preview').classList.remove('hidden');
   document.getElementById('card-send').classList.remove('hidden');
-  renderSendingFrom();
   hideWarn();
 
   if (merged.length === 0) showWarn('No valid email addresses found. Check your files.');
