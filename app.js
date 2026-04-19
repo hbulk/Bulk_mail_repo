@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     scheduleSigninPopup();
   }
-  initGIS();
 });
 
 function scheduleSigninPopup() {
