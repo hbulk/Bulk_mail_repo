@@ -26,19 +26,18 @@
 .page-layout {
   flex: 1;
   padding: 2rem 1rem 3rem;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 2rem;
 }
 
 /* ── Sidebar ── */
 .sidebar {
   width: 240px;
-  flex-shrink: 0;
-  position: sticky;
+  position: absolute;
+  left: 1rem;
   top: 2rem;
-  align-self: start;
   display: none;
 }
 
@@ -261,7 +260,6 @@ body {
 .wrap {
   max-width: 600px;
   width: 100%;
-  flex-shrink: 0;
 }
 
 /* ── Head ── */
