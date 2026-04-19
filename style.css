@@ -622,6 +622,7 @@ footer {
   color: var(--text-faint);
 }
 .global-footer {
+display: flex;
 justify-content: center;
   
 }
