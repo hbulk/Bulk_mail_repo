@@ -26,18 +26,19 @@
 .page-layout {
   flex: 1;
   padding: 2rem 1rem 3rem;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: "main";
+  justify-items: center;
   gap: 2rem;
-  align-items: flex-start;
 }
 
 /* ── Sidebar ── */
 .sidebar {
-  width: 240px;
-  flex-shrink: 0;
+  grid-area: sidebar;
   position: sticky;
   top: 2rem;
+  align-self: start;
   display: none;
 }
 
@@ -134,9 +135,53 @@
 }
 .sidebar-tip svg { width: 13px; height: 13px; flex-shrink: 0; margin-top: 1px; }
 
-/* Show sidebar on wide screens */
+/* ── Ad zone (right column) ── */
+.ad-zone {
+  grid-area: adzone;
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  display: none;
+}
+
+.ad-zone-inner {
+  background: var(--surface);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-faint);
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+.ad-zone-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 2px 8px;
+}
+
+/* Show sidebar + ad zone on wide screens */
 @media (min-width: 900px) {
+  .page-layout {
+    grid-template-columns: 240px minmax(0, 600px) 240px;
+    grid-template-areas: "sidebar main adzone";
+    justify-items: stretch;
+    padding: 2rem 1.5rem 3rem;
+  }
   .sidebar { display: block; }
+  .ad-zone { display: block; }
+}
 }
 
 /* ── Global footer ── */
@@ -221,6 +266,7 @@ body {
 }
 
 .wrap {
+  grid-area: main;
   max-width: 600px;
   margin: 0 auto;
   width: 100%;
